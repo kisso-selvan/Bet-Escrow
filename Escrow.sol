@@ -31,18 +31,24 @@ contract PriceConsumerV3 {
     }
 }
 
-contract Escrow {
+contract Escrow is PriceConsumerV3 {
     address public winner;
     uint256 bet_amount;
     uint256 bet_duration;
-    bool bet_long = false;
-    bool bet_short = false;
-    uint256 time = block.timestamp;
+    bool bet_long;
+    bool bet_short;
+    uint256 time;
+    int256 bet_price;
 
     address user_1;
     address user_2;
 
-    int256 bet_price = PriceConsumerV3.getLatestPrice();
+    constructor(uint bet_amount_, uint bet_duration_) {
+        bet_amount = bet_amount_;
+        bet_duration = bet_duration_;
+        bet_price = PriceConsumerV3.getLatestPrice();
+        time = block.timestamp;
+    }
     
     modifier _winner {
         require(msg.sender == winner);
@@ -50,7 +56,7 @@ contract Escrow {
     }
 
     function deposit_short() public payable {
-        require(bet_short =! true && bet_amount <= msg.value);
+        require(bet_short =! true && bet_amount == msg.value);
         bet_short = true;
         user_1 = msg.sender;
     }
