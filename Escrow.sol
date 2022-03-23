@@ -56,7 +56,7 @@ contract Escrow is PriceConsumerV3 {
     }
 
     function deposit_short() public payable {
-        require(bet_short =! true && bet_amount == msg.value);
+        require(bet_short =! true && bet_amount <= msg.value);
         bet_short = true;
         user_1 = msg.sender;
     }
