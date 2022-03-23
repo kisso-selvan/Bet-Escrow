@@ -44,15 +44,13 @@ contract Escrow {
 
     int256 bet_price = PriceConsumerV3.getLatestPrice();
     
-    mapping(address => uint256) public bet;
-
     modifier _winner {
         require(msg.sender == winner);
         _;
     }
 
     function deposit_short() public payable {
-        require(bet_short =! true && bet_amount == msg.value);
+        require(bet_short =! true && bet_amount <= msg.value);
         bet_short = true;
         user_1 = msg.sender;
     }
